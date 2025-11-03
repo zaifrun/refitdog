@@ -10,9 +10,19 @@ builder.Services.AddRefitClient<IDogService>()
 
 var app = builder.Build();
 
-app.MapGet("/", async (IDogService _dogService) => {
+app.MapGet("/", async (HttpContext context, IDogService _dogService)  => {
+    //var data = (await _dogService.GetBreedImages("retriever-golden")).Message;
+    var data = (await _dogService.GetBreedImages("retriever")).Message;
 
-    return (await _dogService.GetBreedImages("poodle")).Message;
+    string output = "<!DOCTYPE html> <html> <body>";
+    foreach (string url in data)
+    {
+        output += url+"<br> <img src = \""+url+"\">";
+        output += "<br><br>";
+    }
+    output += "<hr> </body> </html>";
+    context.Response.ContentType = "text/html";
+    await context.Response.WriteAsync(output);
 });
 
 app.Run();
