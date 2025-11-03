@@ -34,4 +34,6 @@ public interface IDogService
     Task<BreedImageModel> GetBreedImages(string breedName);
 }
 
+//record er immutable (dvs. kan ikke ændres normalt efter data er sat).
+//og der er heller ikke constructor eller metoder etc. Så til ren data.
 public record BreedImageModel(string[]? Message, string? Status);
